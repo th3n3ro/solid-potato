@@ -1,0 +1,16 @@
+{
+  "name": "skia",
+  "version": "0.0.1",
+  "description": "Enhanced skia build",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./index.d.ts",
+        "require": "./index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  }
+}

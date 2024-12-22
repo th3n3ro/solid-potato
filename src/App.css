@@ -1,0 +1,27 @@
+.canvases {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.canvas-wrapper {
+  flex-direction: column;
+  gap: 20px;
+  display: flex;
+  justify-content: center;
+  width: auto;
+}
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+canvas {
+  width: 512px;
+  height: 512px;
+}
+
+h2 {
+  font-size: 40px;
+}
