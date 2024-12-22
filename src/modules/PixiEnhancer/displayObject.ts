@@ -27,10 +27,8 @@ Container.prototype.toSceneObjectRecursive = function (this: Container) {
 };
 
 Sprite.prototype.toSceneObject = function (this: Sprite) {
-  const { width, height, ...texture } = this.texture.baseTexture;
-  const { src } = texture.resource;
-  const id = new URL(src).pathname;
-  return new Scene.Sprite(this.transform.worldTransform.toSceneMatrix(), [], id, { width, height });
+  const { width, height, uid } = this.texture.baseTexture;
+  return new Scene.Sprite(this.transform.worldTransform.toSceneMatrix(), [], uid, { width, height });
 };
 
 Graphics.prototype.toSceneObject = function (this: Graphics) {

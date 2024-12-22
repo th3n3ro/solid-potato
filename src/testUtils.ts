@@ -1,6 +1,8 @@
 import * as PIXI from "pixi.js-legacy";
 import shuffle from "lodash/shuffle";
-const srcs = shuffle(["/img1.jpg", "/img2.jpeg", "/img3.jpeg", "/img4.png"]);
+import { srcs } from "./resources";
+
+const testsrcs = shuffle([...srcs]);
 
 const rnd = (base: number) => base * Math.random();
 
@@ -9,7 +11,7 @@ const broke = (container: PIXI.Container) => {
 };
 
 const img = (assets: typeof PIXI.Assets) => {
-  const src = srcs.pop()!;
+  const src = testsrcs.pop()!;
   const sprite = new PIXI.Sprite(assets.get(src));
   broke(sprite);
   return sprite;

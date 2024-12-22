@@ -9,12 +9,24 @@ import { SurfaceRenderer } from "./modules/SurfaceRenderer";
 import { PDFRenderer } from "./modules/PDFRenderer";
 import { considerDeviceDPR } from "./utils";
 import { getContent } from "./testUtils";
+import { srcs } from "./resources";
 
 const init = new Promise<{ ck: CanvasKit; skiaAssets: AssetsManager }>(async (r) => {
   PIXI.Assets.setPreferences({ preferWorkers: true, preferCreateImageBitmap: true });
-  const srcs = ["/img1.jpg", "/img2.jpeg", "/img3.jpeg", "/img4.png"];
-  const ck = await CanvasKitInit({ locateFile: (file) => `/${file}` });
-  const [skiaAssets] = await Promise.all([new AssetsManager(ck).load(srcs), PIXI.Assets.load<PIXI.Texture>(srcs)]);
+  const [pixiAssets, ck] = await Promise.all([
+    PIXI.Assets.load<PIXI.Texture>(srcs),
+    await CanvasKitInit({ locateFile: (file) => `${import.meta.env.BASE_URL}/${file}` }),
+  ]);
+  const metadata = Object.values(pixiAssets).map(
+    ({
+      baseTexture: {
+        uid,
+        resource: { src },
+      },
+    }) => ({ src, id: uid })
+  );
+
+  const [skiaAssets] = await Promise.all([new AssetsManager(ck).load(metadata)]);
   r({ ck, skiaAssets });
 });
 

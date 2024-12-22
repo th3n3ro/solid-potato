@@ -1,16 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
+import { homepage } from "./package.json";
 
-// https://vite.dev/config/
 export default defineConfig({
+  base: process.env.NODE_ENV === "production" ? homepage : `/assets/`,
   plugins: [react()],
   optimizeDeps: {
     include: ["skia"],
   },
   build: {
     commonjsOptions: {
-      include: [/skia/, /node_modules/], // Убедитесь, что CommonJS пакеты обрабатываются
+      include: [/skia/, /node_modules/],
     },
   },
   resolve: {

@@ -1,23 +1,22 @@
 import * as CanvasKit from "../../../libs/skia";
 import { assert } from "../../utils";
 
-type src = string;
-
+type Resource = { id: number; src: string };
 export class AssetsManager {
   constructor(
     protected ck: CanvasKit.CanvasKit,
-    protected cache: Map<string, ArrayBuffer> = new Map(),
-    protected resourcePointers: Map<string, CanvasKit.Image> = new Map()
+    protected cache: Map<number, ArrayBuffer> = new Map(),
+    protected resourcePointers: Map<number, CanvasKit.Image> = new Map()
   ) {}
 
-  public async load(resources: src[]): Promise<this> {
-    const responses = await Promise.all(resources.map((src) => fetch(src)));
+  public async load(resources: Resource[]): Promise<this> {
+    const responses = await Promise.all(resources.map((r) => fetch(r.src)));
     const raw = await Promise.all(responses.map((r) => r.arrayBuffer()));
-    resources.forEach((key, index) => this.cache.set(key, raw[index]));
+    resources.forEach(({ id }, index) => this.cache.set(id, raw[index]));
     return this;
   }
 
-  public getResourcePointer(id: string): CanvasKit.Image {
+  public getResourcePointer(id: number): CanvasKit.Image {
     if (!this.resourcePointers.has(id)) {
       const buffer = this.cache.get(id);
       assert(buffer, `Missing resource buffer with id - ${id}`);

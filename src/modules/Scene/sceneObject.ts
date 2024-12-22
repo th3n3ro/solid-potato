@@ -26,7 +26,7 @@ export abstract class SceneObject {
 export class Container extends SceneObject {}
 
 export class Sprite extends SceneObject {
-  constructor(public transform: TransformationMatrix, public childrens: SceneObject[], public assetId: string, public size: Size) {
+  constructor(public transform: TransformationMatrix, public childrens: SceneObject[], public assetId: number, public size: Size) {
     super(transform, childrens);
   }
 }
